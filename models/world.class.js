@@ -1,25 +1,51 @@
 class World {
     img;
+    sky = new Sky();
+    background = [
+        new Background('../assets/img/5_background/layers/3_third_layer/full.png'),
+        new Background('../assets/img/5_background/layers/2_second_layer/full.png'),
+        new Background('../assets/img/5_background/layers/1_first_layer/full.png'),
+    ]
     character = new Character();
     enemies = [
         new Chicken(),
         new Chicken(),
         new Chicken(),
     ];
+    clouds = [
+        new Cloud(),
+        new Cloud(),
+    ]
+    canvas;
     ctx;
 
     constructor(canvas) {
         this.ctx = canvas.getContext('2d');
+        this.canvas = canvas;
         this.draw();
     }
 
     draw() {
-        this.ctx.drawImage(this.character.img, this.character.x, this.character.y, this.character.width, this.character.height);
-        this.ctx.drawImage(this.enemies[0].img, this.enemies[0].x, this.enemies[0].y, this.enemies[0].width, this.enemies[0].height)
-
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+        this.addToMap(this.sky);
+        this.addObjectsToMap(this.background);
+        this.addToMap(this.character);
+        this.addObjectsToMap(this.enemies);
+        this.addObjectsToMap(this.clouds);
+        
         let self = this;
         requestAnimationFrame(function() {
             self.draw();
         });
+    }
+
+    addObjectsToMap(objects) {
+        objects.forEach(o => {
+            this.addToMap(o);
+        })
+    }
+
+    addToMap(mo) {
+        this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
     }
 }
