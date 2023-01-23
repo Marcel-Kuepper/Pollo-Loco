@@ -59,7 +59,7 @@ class Character extends MovableObject {
         '../assets/img/2_character_pepe/5_dead/D-57.png',
     ];
     world;
-    speed = 2;
+    speed = 4;
 
     constructor() {
         super().loadImage('../assets/img/2_character_pepe/1_idle/idle/I-1.png');
@@ -75,7 +75,7 @@ class Character extends MovableObject {
             let path = this.IMAGES_IDLE[i];
             this.img = this.imageCache[path];
             this.currentImage++;
-        }, 100)
+        }, 150)
         setInterval(() => {
             if (this.world.keyboard.SPACE) {
                 let i = this.currentImage % this.IMAGES_JUMP.length;
@@ -83,12 +83,13 @@ class Character extends MovableObject {
                 this.img = this.imageCache[path];
                 this.currentImage++;
             }
-        }, 100);
+        }, 150);
         setInterval(() => {
-            if (this.world.keyboard.RIGHT) {
+            if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                 this.x += this.speed;
                 this.otherDirection = false;
             }
+            this.world.camera_x = -this.x + 100;
         }, 1000 / 60)
         setInterval(() => {
             if (this.world.keyboard.RIGHT) {
@@ -97,12 +98,13 @@ class Character extends MovableObject {
                 this.img = this.imageCache[path];
                 this.currentImage++;
             }
-        }, 100)
+        }, 150)
         setInterval(() => {
-            if (this.world.keyboard.LEFT) {
+            if (this.world.keyboard.LEFT && this.x > -1000) {
                 this.x -= this.speed;
                 this.otherDirection = true;
             }
+            this.world.camera_x = -this.x + 100;
         }, 1000 / 60)
         setInterval(() => {
             if (this.world.keyboard.LEFT) {
@@ -111,6 +113,6 @@ class Character extends MovableObject {
                 this.img = this.imageCache[path];
                 this.currentImage++;
             }
-        }, 100)
+        }, 150)
     }
 }
