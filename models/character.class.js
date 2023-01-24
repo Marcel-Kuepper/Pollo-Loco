@@ -1,6 +1,6 @@
 class Character extends MovableObject {
     x = 100;
-    y = 250;
+    y = 150;
     IMAGES_IDLE = [
         '../assets/img/2_character_pepe/1_idle/idle/I-1.png',
         '../assets/img/2_character_pepe/1_idle/idle/I-2.png',
@@ -66,6 +66,7 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_IDLE);
         this.loadImages(this.IMAGES_JUMP);
         this.loadImages(this.IMAGES_WALK);
+        this.applyGravity();
         this.animate();
     }
 
@@ -78,10 +79,7 @@ class Character extends MovableObject {
         }, 150)
         setInterval(() => {
             if (this.world.keyboard.SPACE) {
-                let i = this.currentImage % this.IMAGES_JUMP.length;
-                let path = this.IMAGES_JUMP[i];
-                this.img = this.imageCache[path];
-                this.currentImage++;
+                this.playAnimation(this.IMAGES_JUMP)
             }
         }, 150);
         setInterval(() => {
@@ -93,10 +91,7 @@ class Character extends MovableObject {
         }, 1000 / 60)
         setInterval(() => {
             if (this.world.keyboard.RIGHT) {
-                let i = this.currentImage % this.IMAGES_WALK.length;
-                let path = this.IMAGES_WALK[i];
-                this.img = this.imageCache[path];
-                this.currentImage++;
+                this.playAnimation(this.IMAGES_WALK);
             }
         }, 150)
         setInterval(() => {
@@ -108,10 +103,7 @@ class Character extends MovableObject {
         }, 1000 / 60)
         setInterval(() => {
             if (this.world.keyboard.LEFT) {
-                let i = this.currentImage % this.IMAGES_WALK.length;
-                let path = this.IMAGES_WALK[i];
-                this.img = this.imageCache[path];
-                this.currentImage++;
+                this.playAnimation(this.IMAGES_WALK);
             }
         }, 150)
     }

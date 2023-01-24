@@ -20,10 +20,7 @@ class ChickenSmall extends MovableObject {
         let min_x = -50;
         this.moveLeft(min_x);
         setInterval(() => {
-            let i = this.currentImage % this.IMAGES_WALKING.length;
-            let path = this.IMAGES_WALKING[i];
-            this.img = this.imageCache[path];
-            this.currentImage++;
+            this.playAnimation(this.IMAGES_WALKING);
         }, 200)
     }
 
