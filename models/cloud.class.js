@@ -12,7 +12,14 @@ class Cloud extends MovableObject {
 
     animate() {
         let min_x = -1000;
-        this.moveLeft(min_x);
+        setInterval(() => {
+            this.moveLeft();
+            if (this.x < min_x) {
+                this.x = this.getRandomAnimationX();
+                this.y = this.getRandomAnimationY();
+                this.speed = this.getRandomAnimationSpeed();
+            }
+        }, 1000 / 60)
     }
 
     getRandomAnimationSpeed() {

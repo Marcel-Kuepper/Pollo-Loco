@@ -2,6 +2,12 @@ class Boss extends MovableObject {
     height = 300;
     width = 300;
     y = 160
+    offset = {
+        top: 50,
+        left: 30,
+        right: 30,
+        bottom: 20,
+    };
 
     IMAGES_WALKING = [
         'assets/img/4_enemie_boss_chicken/1_walk/G1.png',
@@ -47,7 +53,7 @@ class Boss extends MovableObject {
         this.loadImages(this.IMAGES_ATTACK);
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_DEAD);
-        this.x = 2500;
+        this.x = 3200;
         this.animate();
     }
 

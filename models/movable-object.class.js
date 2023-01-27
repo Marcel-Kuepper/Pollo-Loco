@@ -8,8 +8,16 @@ class MovableObject {
     currentImage = 0;
     speed;
     otherDirection = false;
+    isHurt = false;
     speedY = 0;
     acceleration = 1;
+    energy = 100;
+    offset = {
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+    };
 
     applyGravity() {
         setInterval(() => {
@@ -38,18 +46,11 @@ class MovableObject {
     }
 
     moveRight() {
-        console.log('Moving right');
+        this.x += this.speed;
     }
 
-    moveLeft(min_x) {
-        setInterval(() => {
-            this.x -= this.speed;
-            if (this.x < min_x) {
-                this.x = this.getRandomAnimationX();
-                this.y = this.getRandomAnimationY();
-                this.speed = this.getRandomAnimationSpeed();
-            }
-        }, 1000 / 60)
+    moveLeft() {
+        this.x -= this.speed;
     }
 
     playAnimation(images) {
@@ -59,4 +60,14 @@ class MovableObject {
         this.currentImage++;
     }
 
+    jump() {
+        this.speedY = 20;
+    }
+
+    isColliding(mo) {
+        return this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
+        this.x + this.offset.left < mo.x + mo.width - mo.offset.right &&
+        this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &&
+        this.y +this.offset.top < mo.y + mo.height - mo.offset.bottom;
+    }
 }
