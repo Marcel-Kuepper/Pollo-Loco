@@ -8,6 +8,7 @@ class Boss extends MovableObject {
         right: 30,
         bottom: 20,
     };
+    alerted = false;
 
     IMAGES_WALKING = [
         'assets/img/4_enemie_boss_chicken/1_walk/G1.png',
@@ -59,7 +60,11 @@ class Boss extends MovableObject {
 
     animate() {
         setInterval(() => {
-            this.playAnimation(this.IMAGES_WALKING)
+            if (this.alerted) {
+                this.playAnimation(this.IMAGES_ALERT)
+            } else {
+                this.playAnimation(this.IMAGES_WALKING)
+            }
         }, 200);
     }
 }

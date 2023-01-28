@@ -16,6 +16,7 @@ class World {
         this.setWorld();
         this.draw();
         this.checkCollisions();
+        this.alertBoss();
     }
 
     setWorld() {
@@ -101,5 +102,12 @@ class World {
     flipImageBack(mo) {
         mo.x = mo.x * -1;
         this.ctx.restore();
+    }
+
+    alertBoss() {
+        setInterval(() => {
+        if (this.character.x > 2800) {
+            this.level.enemies[6].alerted = true;
+        }}, 100)
     }
 }
