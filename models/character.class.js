@@ -66,6 +66,7 @@ class Character extends MovableObject {
         right: 30,
         bottom: 10,
     };
+    isInvincible = false;
 
     constructor() {
         super().loadImage('../assets/img/2_character_pepe/1_idle/idle/I-1.png');
@@ -84,21 +85,18 @@ class Character extends MovableObject {
                 this.moveLeft();
                 this.otherDirection = true;
             }
-
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                 this.moveRight();
                 this.otherDirection = false;
             }
-
             if (this.world.keyboard.SPACE && this.isAboveGround() == false) {
                 this.jump();
             }
             this.world.camera_x = -this.x + 100;
         }, 1000 / 60)
-
-
         setInterval(() => {
             if (this.energy <= 0){
+                this.isDead = true;
                 this.playAnimation(this.IMAGES_DEAD);
             } else if (this.isHurt) {
                 this.playAnimation(this.IMAGES_HURT);

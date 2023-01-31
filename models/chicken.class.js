@@ -6,49 +6,43 @@ class Chicken extends MovableObject {
         'assets/img/3_enemies_chicken/chicken_normal/1_walk/2_w.png',
         'assets/img/3_enemies_chicken/chicken_normal/1_walk/3_w.png'
     ];
+    IMAGES_DEAD = [
+        'assets/img/3_enemies_chicken/chicken_normal/2_dead/dead.png'
+    ];
     offset = {
         top: 5,
         left: 5,
         right: 5,
         bottom: 5,
     };
+    acceleration = 0.2
 
     constructor() {
         super().loadImage('../assets/img/3_enemies_chicken/chicken_normal/1_walk/2_w.png');
         this.loadImages(this.IMAGES_WALKING);
-        this.x = 200 + Math.random() * 500;
+        this.loadImages(this.IMAGES_DEAD);
+        this.x = 300 + Math.random() * 4500;
         this.y = 380 + Math.random() * 40;
-        this.speed = 1.5 + Math.random() * 0.25;
+        this.speed = 0.5 + Math.random() * 0.25;
         this.animate();
     }
 
     animate() {
-        let min_x = -50;
         setInterval(() => {
             this.moveLeft();
-            if (this.x < min_x) {
-                this.x = this.getRandomAnimationX();
-                this.y = this.getRandomAnimationY();
-                this.speed = this.getRandomAnimationSpeed();
-            }
         }, 1000 / 60)
         setInterval(() => {
-            this.playAnimation(this.IMAGES_WALKING)
+            if (this.isDead) {
+                setInterval(() => {
+                    this.playAnimation(this.IMAGES_DEAD)
+                }, 200)
+                this.applyGravity();
+                setTimeout(() => {
+                    return;
+                }, 1000)
+            } else {
+                this.playAnimation(this.IMAGES_WALKING)
+            }
         }, 200)
-    }
-
-    getRandomAnimationSpeed() {
-        let random_speed = 1.5 + Math.random() * 0.25;
-        return random_speed;
-    }
-
-    getRandomAnimationX() {
-        let random_x = 720 + Math.random() * 400;
-        return random_x;
-    }
-
-    getRandomAnimationY() {
-        let random_y = 380 + Math.random() * 40;
-        return random_y;
     }
 }

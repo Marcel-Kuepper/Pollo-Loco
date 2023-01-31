@@ -2,6 +2,7 @@ class World {
     img;
     character = new Character();
     level = level1;
+    throwable = [];
     canvas;
     ctx;
     keyboard;
@@ -9,7 +10,6 @@ class World {
 
 
     constructor(canvas, keyboard) {
-
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
@@ -17,32 +17,40 @@ class World {
         this.draw();
         this.checkCollisions();
         this.alertBoss();
+        this.throwBottle();
     }
 
     setWorld() {
         this.character.world = this;
+        this.throwable.world = this;
     }
 
     checkCollisions() {
         setInterval(() => {
             this.level.enemies.forEach((enemie) => {
                 if (this.character.isColliding(enemie)) {
-                    console.log(enemie);
-                    console.log(this.character.energy);
-                    if (this.character.isHurt == false) {
-                        this.character.energy -= 5;
-                        if (this.character.energy < 0) {
-                            this.character.energy = 0;
-                        }
+                    if (this.character.isJumpingOn() && enemie instanceof Boss == false) {
+                        enemie.isDead = true;
+                        this.character.isInvincible = true;
                         this.character.speedY = 15;
-                        this.character.isHurt = true;
                         setTimeout(() => {
-                            this.character.isHurt = false;
-                        }, 1000)
-                    }
+                            this.character.isInvincible = false;
+                        }, 200);
+                    } else
+                        if (this.character.isHurt == false && this.character.isInvincible == false) {
+                            this.character.energy -= 5;
+                            if (this.character.energy < 0) {
+                                this.character.energy = 0;
+                            }
+                            this.character.speedY = 15;
+                            this.character.isHurt = true;
+                            setTimeout(() => {
+                                this.character.isHurt = false;
+                            }, 1000)
+                        }
                 }
             })
-        }, 100);
+        }, 50);
     }
 
     draw() {
@@ -53,8 +61,9 @@ class World {
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.clouds);
+        this.addObjectsToMap(this.throwable);
+        this.addObjectsToMap(this.level.colectables)
         this.ctx.translate(-this.camera_x, 0);
-
         let self = this;
         requestAnimationFrame(function () {
             self.draw();
@@ -106,8 +115,35 @@ class World {
 
     alertBoss() {
         setInterval(() => {
-        if (this.character.x > 2800) {
-            this.level.enemies[6].alerted = true;
-        }}, 100)
+            if (this.character.x > 2800) {
+                this.level.enemies[0].alerted = true;
+            }
+        }, 100)
+    }
+
+    throwBottle() {
+        setInterval(() => {
+            if (this.keyboard.DOWN) {
+                let bottle = new Salsa(this.character.x + 60, this.character.y + 60);
+                this.throwable.push(bottle);
+            }
+        }, 200);
+    }
+
+    isCollidingBottle(mo) {
+        this.level.enemies.forEach((enemie) => {
+            if (mo.isColliding(enemie)) {
+                this.splash;
+                if (enemie instanceof Boss) {
+                    enemie.isDead = true;
+                    this.splash;
+                } else if (!(enemie.isHurt)) {
+                    enemie.isHurt = true;
+                    setTimeout(() => {
+                        enemie.isHurt = false;
+                    }, 500)
+                }
+            }
+        })
     }
 }
