@@ -52,7 +52,7 @@ class Salsa extends MovableObject {
         this.speed = 0;
         this.playAnimation(this.IMAGES_SPLASH);
         setTimeout(() => {
-            world.throwable.splice(0);
+            world.throwable.splice(this);
         }, 600);
     }
 }

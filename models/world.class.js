@@ -130,20 +130,14 @@ class World {
         }, 200);
     }
 
-    isCollidingBottle(mo) {
-        this.level.enemies.forEach((enemie) => {
-            if (mo.isColliding(enemie)) {
-                this.splash;
-                if (enemie instanceof Boss) {
-                    enemie.isDead = true;
-                    this.splash;
-                } else if (!(enemie.isHurt)) {
-                    enemie.isHurt = true;
-                    setTimeout(() => {
-                        enemie.isHurt = false;
-                    }, 500)
+    
+    checkColection() {
+        setInterval(() => {
+            this.level.colectables.forEach(c => {
+                if (c.isColliding(this.character)) {
+                    c.pickUp()
                 }
-            }
-        })
+            });
+        }, 100);
     }
 }

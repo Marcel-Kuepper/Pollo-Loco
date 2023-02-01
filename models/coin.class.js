@@ -8,5 +8,19 @@ class Coin extends ColectableObject{
         super().loadImage(this.IMAGE_NORMAL);
         this.x = rx;
         this.y = ry;
+        this.checkColection();
+    }
+
+    pickUp(c) {
+        this.loadImage(this.IMAGE_PICKUP);
+        setInterval(this.moveUp(), 50);
+        setTimeout(() => {
+            clearInterval(this.moveUp());
+            world.level.colectables.splice(1, c); 
+        }, 200)
+    }
+
+    moveUp() {
+        this.y -= 1;
     }
 }
