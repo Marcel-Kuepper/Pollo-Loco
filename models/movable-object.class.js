@@ -1,11 +1,4 @@
-class MovableObject {
-    x = 200;
-    y = 200;
-    img;
-    height = 200;
-    width = 100;
-    imageCache = {};
-    currentImage = 0;
+class MovableObject extends DrawableObject {
     speed;
     otherDirection = false;
     isHurt = false;
@@ -43,19 +36,6 @@ class MovableObject {
         } else {
             return this.y < 250;
         }
-    }
-
-    loadImage(path) {
-        this.img = new Image();
-        this.img.src = path;
-    }
-
-    loadImages(arr) {
-        arr.forEach((path) => {
-            let img = new Image();
-            img.src = path;
-            this.imageCache[path] = img;
-        });
     }
 
     moveRight() {

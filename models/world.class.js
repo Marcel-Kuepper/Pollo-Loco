@@ -3,10 +3,14 @@ class World {
     character = new Character();
     level = level1;
     throwable = [];
+    health = new CharacterHealth();
+    coinbar = new CoinBar();
     canvas;
     ctx;
     keyboard;
     camera_x = 0;
+    coins = 0;
+    bottles = 0;
 
 
     constructor(canvas, keyboard) {
@@ -23,6 +27,28 @@ class World {
     setWorld() {
         this.character.world = this;
         this.throwable.world = this;
+        this.coinbar.world = this;
+    }
+    
+    draw() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.ctx.translate(this.camera_x, 0);
+        this.addObjectsToMap(this.level.sky);
+        this.addObjectsToMap(this.level.background);
+        this.addToMap(this.character);
+        this.addObjectsToMap(this.level.enemies);
+        this.addObjectsToMap(this.level.clouds);
+        this.addObjectsToMap(this.throwable);
+        this.addObjectsToMap(this.level.colectables);
+        this.ctx.translate(-this.camera_x, 0);
+        this.addToMap(this.health);
+        this.addToMap(this.coinbar);
+        this.drawNumber(this.coins, 280, 50);
+        this.drawNumber(this.bottles, 350, 50);
+        let self = this;
+        requestAnimationFrame(function () {
+            self.draw();
+        });
     }
 
     checkCollisions() {
@@ -38,7 +64,8 @@ class World {
                         }, 200);
                     } else
                         if (this.character.isHurt == false && this.character.isInvincible == false) {
-                            this.character.energy -= 5;
+                            this.character.energy -= 20;
+                            this.health.setPercentage(this.character.energy);
                             if (this.character.energy < 0) {
                                 this.character.energy = 0;
                             }
@@ -51,23 +78,6 @@ class World {
                 }
             })
         }, 50);
-    }
-
-    draw() {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
-        this.ctx.translate(this.camera_x, 0);
-        this.addObjectsToMap(this.level.sky);
-        this.addObjectsToMap(this.level.background);
-        this.addToMap(this.character);
-        this.addObjectsToMap(this.level.enemies);
-        this.addObjectsToMap(this.level.clouds);
-        this.addObjectsToMap(this.throwable);
-        this.addObjectsToMap(this.level.colectables)
-        this.ctx.translate(-this.camera_x, 0);
-        let self = this;
-        requestAnimationFrame(function () {
-            self.draw();
-        });
     }
 
     addObjectsToMap(objects) {
@@ -89,6 +99,11 @@ class World {
 
     drawMo(mo) {
         this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
+    }
+    
+    drawNumber(number, x, y) {
+        this.ctx.font = "30px Comic Sans MS";
+        this.ctx.fillText(`${number}`, x, y);
     }
 
     drawFrame(mo) {
@@ -130,7 +145,7 @@ class World {
         }, 200);
     }
 
-    
+
     checkColection() {
         setInterval(() => {
             this.level.colectables.forEach(c => {

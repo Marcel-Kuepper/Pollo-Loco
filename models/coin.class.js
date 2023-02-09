@@ -11,16 +11,20 @@ class Coin extends ColectableObject{
         this.checkColection();
     }
 
-    pickUp(c) {
+    pickUp() {
         this.loadImage(this.IMAGE_PICKUP);
-        setInterval(this.moveUp(), 50);
+        world.coins++;
+        this.moveUp();
         setTimeout(() => {
-            clearInterval(this.moveUp());
-            world.level.colectables.splice(1, c); 
+            this.x = -500;
+            this.y = -500;
         }, 200)
     }
 
     moveUp() {
-        this.y -= 1;
+        this.y -= 10;
+        setTimeout(() => {
+            this.y -= 10;
+        }, 50);
     }
 }

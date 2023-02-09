@@ -8,5 +8,22 @@ class Pickup extends ColectableObject{
         super().loadImage(this.IMAGES_PICKUP[index]);
         this.x = rx;
         this.y = ry;
+        this.checkColection();
+    }
+
+    pickUp() {
+        world.bottles += 2;
+        this.moveUp();
+        setTimeout(() => {
+            this.x = -500;
+            this.y = -500;
+        }, 200)
+    }
+
+    moveUp() {
+        this.y -= 10;
+        setTimeout(() => {
+            this.y -= 10;
+        }, 50);
     }
 }

@@ -12,6 +12,7 @@ class ColectableObject {
         right: 0,
         bottom: 0,
     };
+    getsPickedUp = false;
 
     loadImage(path) {
         this.img = new Image();
@@ -22,8 +23,9 @@ class ColectableObject {
         setTimeout(() => {
             setInterval(() => {
                 world.level.colectables.forEach(c => {
-                    if (c.isColliding(world.character)) {
-                        c.pickUp(c)
+                    if (c.isColliding(world.character) && c.getsPickedUp == false) {
+                        c.pickUp();
+                        c.getsPickedUp = true;
                     }
                 });
             }, 100);
