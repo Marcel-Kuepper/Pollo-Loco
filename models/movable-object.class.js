@@ -80,9 +80,13 @@ class MovableObject extends DrawableObject {
                     },100);
                 } else if (!(enemie.isHurt)) {
                     enemie.isHurt = true;
+                    enemie.energy -= 20;
                     setTimeout(() => {
                         enemie.isHurt = false;
-                    }, 500)
+                        if (enemie.energy <= 0) {
+                            enemie.isDead = true;
+                        }
+                    }, 800)
                     setInterval(() => {
                     this.splash();
                     },100);

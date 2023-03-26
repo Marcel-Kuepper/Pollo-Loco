@@ -13,6 +13,7 @@ class ColectableObject {
         bottom: 0,
     };
     getsPickedUp = false;
+    pickup_sound = new Audio('assets/audio/pickup.mp3');
 
     loadImage(path) {
         this.img = new Image();
@@ -26,6 +27,7 @@ class ColectableObject {
                     if (c.isColliding(world.character) && c.getsPickedUp == false) {
                         c.pickUp();
                         c.getsPickedUp = true;
+                        this.pickup_sound.cloneNode(true).play();
                     }
                 });
             }, 100);

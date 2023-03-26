@@ -4,7 +4,9 @@ class World {
     level = level1;
     throwable = [];
     health = new CharacterHealth();
-    coinbar = new CoinBar();
+    coinBar = new CoinBar();
+    bottlesBar = new BottlesBar();
+    bossHealth = [];
     canvas;
     ctx;
     keyboard;
@@ -20,16 +22,19 @@ class World {
         this.setWorld();
         this.draw();
         this.checkCollisions();
-        this.alertBoss();
+        setInterval(() => {
+            this.alertBoss();
+        }, 100)
         this.throwBottle();
     }
 
     setWorld() {
         this.character.world = this;
         this.throwable.world = this;
-        this.coinbar.world = this;
+        this.coinBar.world = this;
+        this.bottlesBar.world = this;
     }
-    
+
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.translate(this.camera_x, 0);
@@ -42,9 +47,11 @@ class World {
         this.addObjectsToMap(this.level.colectables);
         this.ctx.translate(-this.camera_x, 0);
         this.addToMap(this.health);
-        this.addToMap(this.coinbar);
-        this.drawNumber(this.coins, 280, 50);
+        this.addToMap(this.coinBar);
+        this.addToMap(this.bottlesBar);
+        this.drawNumber(this.coins, 270, 50);
         this.drawNumber(this.bottles, 350, 50);
+        this.addObjectsToMap(this.bossHealth);
         let self = this;
         requestAnimationFrame(function () {
             self.draw();
@@ -57,6 +64,7 @@ class World {
                 if (this.character.isColliding(enemie)) {
                     if (this.character.isJumpingOn() && enemie instanceof Boss == false) {
                         enemie.isDead = true;
+                        this.character.sound_jump_on_enemie.cloneNode(true).play();
                         this.character.isInvincible = true;
                         this.character.speedY = 15;
                         setTimeout(() => {
@@ -65,6 +73,7 @@ class World {
                     } else
                         if (this.character.isHurt == false && this.character.isInvincible == false) {
                             this.character.energy -= 20;
+                            this.character.sound_hurt.cloneNode(true).play();
                             this.health.setPercentage(this.character.energy);
                             if (this.character.energy < 0) {
                                 this.character.energy = 0;
@@ -100,7 +109,7 @@ class World {
     drawMo(mo) {
         this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
     }
-    
+
     drawNumber(number, x, y) {
         this.ctx.font = "30px Comic Sans MS";
         this.ctx.fillText(`${number}`, x, y);
@@ -129,16 +138,19 @@ class World {
     }
 
     alertBoss() {
-        setInterval(() => {
-            if (this.character.x > 2800) {
-                this.level.enemies[0].alerted = true;
-            }
-        }, 100)
+        if (this.character.x > 4200) {
+            this.level.enemies[0].alerted = true;
+            this.bossHealth = [];
+            this.bossHealth.push(new BossHealthBackground());
+            this.bossHealth.push(new BossHealth());
+            this.bossHealth.push(new BossHealthIcon());
+        }
     }
 
     throwBottle() {
         setInterval(() => {
-            if (this.keyboard.DOWN) {
+            if (this.keyboard.DOWN && this.bottles > 0) {
+                this.bottles--;
                 let bottle = new Salsa(this.character.x + 60, this.character.y + 60);
                 this.throwable.push(bottle);
             }

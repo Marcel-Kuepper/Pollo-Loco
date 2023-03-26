@@ -9,6 +9,11 @@ class Boss extends MovableObject {
         bottom: 20,
     };
     alerted = false;
+    alertAnimated = false;
+    chicken_alert = new Audio('assets/audio/chicken-alert.mp3');
+    boss_dead = new Audio('assets/audio/boss-dead.mp3');
+
+    speed = 5;
 
     IMAGES_WALKING = [
         'assets/img/4_enemie_boss_chicken/1_walk/G1.png',
@@ -46,6 +51,7 @@ class Boss extends MovableObject {
         'assets/img/4_enemie_boss_chicken/5_dead/G25.png',
         'assets/img/4_enemie_boss_chicken/5_dead/G26.png',
     ];
+    sound_chicken = new Audio('assets/audio/chicken.mp3');
 
     constructor() {
         super().loadImage(this.IMAGES_WALKING[0]);
@@ -54,17 +60,39 @@ class Boss extends MovableObject {
         this.loadImages(this.IMAGES_ATTACK);
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_DEAD);
-        this.x = 3200;
+        this.x = 4600;
         this.animate();
     }
 
     animate() {
         setInterval(() => {
+            this.sound_chicken.pause();
             if (this.alerted) {
-                this.playAnimation(this.IMAGES_ALERT)
-            } else {
-                this.playAnimation(this.IMAGES_WALKING)
+                if (this.isDead) {
+                    this.playAnimation(this.IMAGES_DEAD)
+                    this.boss_dead.play();
+                } else if (this.isHurt) {
+                    this.playAnimation(this.IMAGES_HURT)
+                } else if (!this.alertAnimated) {
+                    this.playAnimation(this.IMAGES_ALERT)
+                    this.chicken_alert.play();
+                    setTimeout(() => {
+                        this.alertAnimated = true;
+                    }, 600);
+                } else if (this.isInAttackDistance()) {
+                    this.playAnimation(this.IMAGES_ATTACK)
+                    this.moveLeft();
+                    this.chicken_alert.play();
+                } else {
+                    this.playAnimation(this.IMAGES_WALKING)
+                    this.moveLeft();
+                    this.sound_chicken.play();
+                }
             }
-        }, 200);
+        }, 100);
+    }
+
+    isInAttackDistance() {
+        return this.x - this.offset.left < world.character.x + world.character.width + world.character.offset.right;
     }
 }

@@ -67,6 +67,10 @@ class Character extends MovableObject {
         bottom: 10,
     };
     isInvincible = false;
+    sound_jump = new Audio('assets/audio/jump.mp3');
+    sound_walk = new Audio('assets/audio/ice.mp3');
+    sound_hurt = new Audio('assets/audio/character-hurt.wav');
+    sound_jump_on_enemie = new Audio('assets/audio/jump-on-chicken.wav');
 
     constructor() {
         super().loadImage('../assets/img/2_character_pepe/1_idle/idle/I-1.png');
@@ -81,21 +85,29 @@ class Character extends MovableObject {
 
     animate() {
         setInterval(() => {
+            this.sound_walk.pause();
             if (this.world.keyboard.LEFT && this.x > -1000) {
                 this.moveLeft();
                 this.otherDirection = true;
+                if (!this.isAboveGround()) {
+                    this.sound_walk.play();
+                }
             }
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                 this.moveRight();
                 this.otherDirection = false;
+                if (!this.isAboveGround()) {
+                    this.sound_walk.play();
+                }
             }
             if (this.world.keyboard.SPACE && this.isAboveGround() == false) {
                 this.jump();
+                this.sound_jump.cloneNode(true).play();
             }
             this.world.camera_x = -this.x + 100;
         }, 1000 / 60)
         setInterval(() => {
-            if (this.energy <= 0){
+            if (this.energy <= 0) {
                 this.isDead = true;
                 this.playAnimation(this.IMAGES_DEAD);
             } else if (this.isHurt) {

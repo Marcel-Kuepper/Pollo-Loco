@@ -18,6 +18,7 @@ class Salsa extends MovableObject {
     acceleration = 0.3;
     speedY = 9;
     speed = 12;
+    sound_breaking = new Audio('assets/audio/bottle-breaking.mp3');
 
     constructor(x, y) {
         super().loadImage('../assets/img/6_salsa_bottle/bottle_rotation/bottle_splash/1_bottle_splash.png')
@@ -51,8 +52,11 @@ class Salsa extends MovableObject {
         this.speedY = 0;
         this.speed = 0;
         this.playAnimation(this.IMAGES_SPLASH);
+        this.sound_breaking.play();
         setTimeout(() => {
-            world.throwable.splice(this);
-        }, 600);
+            this.x = -1200;
+            this.isDead = true;
+            this.sound_breaking.pause();
+        }, 400);
     }
 }
