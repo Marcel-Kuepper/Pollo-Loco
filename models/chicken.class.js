@@ -16,7 +16,6 @@ class Chicken extends MovableObject {
         bottom: 5,
     };
     acceleration = 0.2
-    sound_chicken = new Audio('assets/audio/chicken.mp2');
 
     constructor() {
         super().loadImage('../assets/img/3_enemies_chicken/chicken_normal/1_walk/2_w.png');
@@ -31,11 +30,9 @@ class Chicken extends MovableObject {
     animate() {
         setInterval(() => {
             this.moveLeft();
-            this.sound_chicken.play();
         }, 1000 / 60)
         setInterval(() => {
             if (this.isDead) {
-                this.sound_chicken.pause();
                 setInterval(() => {
                     this.playAnimation(this.IMAGES_DEAD)
                 }, 200)

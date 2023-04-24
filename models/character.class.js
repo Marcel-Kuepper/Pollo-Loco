@@ -39,6 +39,8 @@ class Character extends MovableObject {
         '../assets/img/2_character_pepe/3_jump/J-33.png',
         '../assets/img/2_character_pepe/3_jump/J-34.png',
         '../assets/img/2_character_pepe/3_jump/J-35.png',
+    ];
+    IMAGES_FALL = [
         '../assets/img/2_character_pepe/3_jump/J-36.png',
         '../assets/img/2_character_pepe/3_jump/J-37.png',
         '../assets/img/2_character_pepe/3_jump/J-38.png',
@@ -76,6 +78,7 @@ class Character extends MovableObject {
         super().loadImage('../assets/img/2_character_pepe/1_idle/idle/I-1.png');
         this.loadImages(this.IMAGES_IDLE);
         this.loadImages(this.IMAGES_JUMP);
+        this.loadImages(this.IMAGES_FALL);
         this.loadImages(this.IMAGES_WALK);
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_DEAD);
@@ -113,7 +116,11 @@ class Character extends MovableObject {
             } else if (this.isHurt) {
                 this.playAnimation(this.IMAGES_HURT);
             } else if (this.isAboveGround()) {
-                this.playAnimation(this.IMAGES_JUMP)
+                if (this.speedY > 0) {
+                   this.playAnimation(this.IMAGES_JUMP) 
+                } else {
+                    this.playAnimation(this.IMAGES_FALL)
+                }
             } else {
                 if (this.world.keyboard.RIGHT) {
                     this.playAnimation(this.IMAGES_WALK);
