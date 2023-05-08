@@ -1,6 +1,8 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
+let isMute = false;
+
 
 function init() {
     canvas = document.getElementById('canvas');
@@ -45,3 +47,37 @@ window.addEventListener('keyup', (event) => {
     }
     console.log(event);
 });
+
+function playMusic() {
+    bgMusic = window.audio.bg_music;
+    bgMusic.loop = true;
+    bgMusic.volume = 0.3;
+    bgMusic.play();
+}
+
+function openSettings() {
+    const gameMenu = document.getElementById('gamemenu');
+    gameMenu.innerHTML = /*html*/ `
+    <div class="instructions">
+        <div>
+            <button class="back" onclick="closeSettings()"></button>
+        </div>
+        <div class="context">
+            <div class="move">
+                <p>Move: A D, ← →</p>
+            </div>
+            <div class="jump">
+                <p>Jump: W, SPACE, ↑</p>
+            </div>
+            <div class="throw-bottle">
+                <p>Throw Bottle: E, F, ENTER</p>
+            </div>
+        </div>
+    </div>
+    `;
+}
+
+
+function goToMenu() {
+    window.location.href = "index.html";
+}

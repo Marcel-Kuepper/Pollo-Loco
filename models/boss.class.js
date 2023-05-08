@@ -51,6 +51,10 @@ class Boss extends MovableObject {
         'assets/img/4_enemie_boss_chicken/5_dead/G25.png',
         'assets/img/4_enemie_boss_chicken/5_dead/G26.png',
     ];
+    IMAGES_SLEEPING = [
+        'assets/img/4_enemie_boss_chicken/6_sleep/G27.png',
+        'assets/img/4_enemie_boss_chicken/6_sleep/G28.png',
+    ];
     sound_chicken = new Audio('assets/audio/chicken.mp3');
 
     constructor() {
