@@ -8,11 +8,11 @@ class Boss extends MovableObject {
         right: 30,
         bottom: 20,
     };
-    alerted = false;
+    isSleeping = true;
+    isAlerted = false;
     alertAnimated = false;
     chicken_alert = new Audio('assets/audio/chicken-alert.mp3');
     boss_dead = new Audio('assets/audio/boss-dead.mp3');
-
     speed = 5;
 
     IMAGES_WALKING = [
@@ -58,7 +58,8 @@ class Boss extends MovableObject {
     sound_chicken = new Audio('assets/audio/chicken.mp3');
 
     constructor() {
-        super().loadImage(this.IMAGES_WALKING[0]);
+        super().loadImage('assets/img/4_enemie_boss_chicken/6_sleep/G27.png')
+        this.loadImages(this.IMAGES_SLEEPING);
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_ALERT);
         this.loadImages(this.IMAGES_ATTACK);
@@ -71,7 +72,7 @@ class Boss extends MovableObject {
     animate() {
         setInterval(() => {
             this.sound_chicken.pause();
-            if (this.alerted) {
+            if (this.isAlerted) {
                 if (this.isDead) {
                     this.playAnimation(this.IMAGES_DEAD)
                     this.boss_dead.play();
@@ -87,6 +88,8 @@ class Boss extends MovableObject {
                     this.playAnimation(this.IMAGES_ATTACK)
                     this.moveLeft();
                     this.chicken_alert.play();
+                } else if (this.isSleeping) {
+                    this.playAnimation(this.IMAGES_SLEEPING)
                 } else {
                     this.playAnimation(this.IMAGES_WALKING)
                     this.moveLeft();

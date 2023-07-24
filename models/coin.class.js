@@ -8,7 +8,7 @@ class Coin extends ColectableObject{
         super().loadImage(this.IMAGE_NORMAL);
         this.x = rx;
         this.y = ry;
-        this.checkColection();
+        //this.checkColection();
     }
 
     pickUp() {

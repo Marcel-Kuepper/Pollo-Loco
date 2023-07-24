@@ -100,7 +100,7 @@ class World {
             this.flipImage(mo);
         }
         this.drawMo(mo);
-        //this.drawFrame(mo);
+        this.drawFrame(mo);
         if (mo.otherDirection) {
             this.flipImageBack(mo);
         }
@@ -115,7 +115,7 @@ class World {
         this.ctx.fillText(`${number}`, x, y);
     }
 
-    /*drawFrame(mo) {
+    drawFrame(mo) {
         if (mo instanceof Character || mo instanceof Chicken || mo instanceof ChickenSmall || mo instanceof Boss) {
             this.ctx.beginPath();
             this.ctx.lineWidth = '5';
@@ -123,7 +123,7 @@ class World {
             this.ctx.rect(mo.x + mo.offset.left, mo.y + mo.offset.top, mo.width - mo.offset.right - mo.offset.left, mo.height - mo.offset.bottom - mo.offset.top);
             this.ctx.stroke();
         }
-    }*/
+    }
 
     flipImage(mo) {
         this.ctx.save();

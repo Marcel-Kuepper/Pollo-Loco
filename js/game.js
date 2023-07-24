@@ -77,6 +77,20 @@ function openSettings() {
     `;
 }
 
+function closeSettings() {
+    const gameMenu = document.getElementById('gamemenu');
+    gameMenu.innerHTML = /*html*/ `
+        <div class="menu-container-section" id="gamemenu">
+        <div>
+            <button class="start" onclick="startGame()">START</button>
+        </div>
+        <div>
+            <button class="settings-icon sound-on" onclick="toggleSound()" id="soundbutton"></button>
+            <button onclick="openSettings()" class="settings-icon setting"></button>
+        </div>
+    </div>
+    `;
+}
 
 function goToMenu() {
     window.location.href = "index.html";

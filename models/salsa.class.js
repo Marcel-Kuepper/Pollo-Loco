@@ -19,6 +19,7 @@ class Salsa extends MovableObject {
     speedY = 9;
     speed = 12;
     sound_breaking = new Audio('assets/audio/bottle-breaking.mp3');
+    hasColidet = false;
 
     constructor(x, y) {
         super().loadImage('../assets/img/6_salsa_bottle/bottle_rotation/bottle_splash/1_bottle_splash.png')
@@ -40,7 +41,9 @@ class Salsa extends MovableObject {
     animate() {
         setInterval(() => {
             this.isCollidingBottle(this)
-            if (!this.isAboveGround()) {
+            if (this.hasColidet) {
+                this.splash();
+            } else if (!this.isAboveGround()) {
                 this.splash();
             } else {
                 this.playAnimation(this.IMAGES_ROTATE);
@@ -51,6 +54,7 @@ class Salsa extends MovableObject {
     splash() {
         this.speedY = 0;
         this.speed = 0;
+        this.acceleration = 0;
         this.playAnimation(this.IMAGES_SPLASH);
         this.sound_breaking.play();
         setTimeout(() => {

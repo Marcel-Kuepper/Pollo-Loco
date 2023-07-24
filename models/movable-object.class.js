@@ -75,7 +75,8 @@ class MovableObject extends DrawableObject {
             if (mo.isColliding(enemie)) {
                 if (enemie instanceof Boss == false) {
                     enemie.isDead = true;
-                    this.handleBottle();
+                    this.hasColidet = true;
+                    //this.handleBottle(mo, enemy, i);
                 } else if (!(enemie.isHurt)) {
                     enemie.isHurt = true;
                     enemie.energy -= 20;
@@ -85,7 +86,8 @@ class MovableObject extends DrawableObject {
                             enemie.isDead = true;
                         }
                     }, 800)
-                    this.handleBottle();
+                    this.hasColidet = true;
+                    //this.handleBottle(mo, enemy, i);
                 }
             }
         })
