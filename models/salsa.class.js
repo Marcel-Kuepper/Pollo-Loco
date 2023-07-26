@@ -57,6 +57,7 @@ class Salsa extends MovableObject {
         this.acceleration = 0;
         this.playAnimation(this.IMAGES_SPLASH);
         this.sound_breaking.play();
+        //world.removeThrowableObject(0);
         setTimeout(() => {
             this.x = -1200;
             this.isDead = true;
