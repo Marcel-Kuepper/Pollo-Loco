@@ -88,14 +88,14 @@ class Boss extends MovableObject {
                     this.playAnimation(this.IMAGES_ATTACK)
                     this.moveLeft();
                     this.chicken_alert.play();
-                } else if (this.isSleeping) {
-                    this.playAnimation(this.IMAGES_SLEEPING)
                 } else {
                     this.playAnimation(this.IMAGES_WALKING)
                     this.moveLeft();
                     this.sound_chicken.play();
                 }
-            }
+            } else {
+                    this.playAnimation(this.IMAGES_SLEEPING)
+                }
         }, 100);
     }
 

@@ -139,7 +139,7 @@ class World {
 
     alertBoss() {
         if (this.character.x > 4200) {
-            this.level.enemies[0].alerted = true;
+            this.level.enemies[0].isAlerted = true;
             this.bossHealth = [];
             this.bossHealth.push(new BossHealthBackground());
             this.bossHealth.push(new BossHealth());

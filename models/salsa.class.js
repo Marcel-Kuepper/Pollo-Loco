@@ -29,13 +29,17 @@ class Salsa extends MovableObject {
         this.animate();
         this.x = x;
         this.y = y;
-        this.throw();
+        //this.throw();
+        setInterval(this.moveSalsa(), 50);
     };
 
-    throw() {
-        setInterval(() => {
-            this.x += this.speed
-        }, 50)
+    //throw() {
+        
+    //}
+
+    moveSalsa() {
+        this.x += this.speed
+        console.log('throw')
     }
 
     animate() {
